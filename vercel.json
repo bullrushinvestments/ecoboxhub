@@ -1,0 +1,153 @@
+interface BuildCommand {
+    command: string;
+    output?: string;
+}
+
+interface EnvironmentVariables {
+    [key: string]: string | undefined;
+}
+
+interface RedirectRule {
+    source: string;
+    has: {
+        type: string;
+        status: number;
+    };
+    destination: string;
+}
+
+interface HeaderPolicy {
+    source: string;
+    headers: Array<{ key: string; value: string }>;
+}
+
+interface CacheStrategy {
+    [key: string]: { maxAge?: number; sMaxAge?: number };
+}
+
+interface FrameworkSettings {
+    vercel?: any;
+    netlify?: any;
+}
+
+interface DeployConfig {
+    build: BuildCommand;
+    env: EnvironmentVariables;
+    redirects: Array<RedirectRule>;
+    headers: Array<HeaderPolicy>;
+    cacheStrategies: CacheStrategy;
+    frameworkSettings: FrameworkSettings;
+}
+
+export const deployConfig: DeployConfig = {
+    build: {
+        command: "next build && next export",
+        output: ".out"
+    },
+    env: {
+        NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+        NEXT_PUBLIC_ANALYTICS_ID: process.env.NEXT_PUBLIC_ANALYTICS_ID
+    },
+    redirects: [
+        {
+            source: "/old-url",
+            has: { type: "query", status: 200 },
+            destination: "/new-url"
+        }
+    ],
+    headers: [
+        {
+            source: "/(.*)",
+            headers: [
+                { key: "strict-transport-security", value: "max-age=31536000; includeSubDomains; preload" },
+                { key: "x-content-type-options", value: "nosniff" },
+                { key: "x-frame-options", value: "DENY" }
+            ]
+        }
+    ],
+    cacheStrategies: {
+        "/api": { maxAge: 0, sMaxAge: 0 },
+        "/static/*": { maxAge: 31536000, sMaxAge: 86400 }
+    },
+    frameworkSettings: {
+        vercel: {},
+        netlify: {}
+    }
+};
+
+interface BuildCommand {
+    command: string;
+    output?: string;
+}
+
+interface EnvironmentVariables {
+    [key: string]: string | undefined;
+}
+
+interface RedirectRule {
+    source: string;
+    has: {
+        type: string;
+        status: number;
+    };
+    destination: string;
+}
+
+interface HeaderPolicy {
+    source: string;
+    headers: Array<{ key: string; value: string }>;
+}
+
+interface CacheStrategy {
+    [key: string]: { maxAge?: number; sMaxAge?: number };
+}
+
+interface FrameworkSettings {
+    vercel?: any;
+    netlify?: any;
+}
+
+interface DeployConfig {
+    build: BuildCommand;
+    env: EnvironmentVariables;
+    redirects: Array<RedirectRule>;
+    headers: Array<HeaderPolicy>;
+    cacheStrategies: CacheStrategy;
+    frameworkSettings: FrameworkSettings;
+}
+
+export const deployConfig: DeployConfig = {
+    build: {
+        command: "next build && next export",
+        output: ".out"
+    },
+    env: {
+        NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+        NEXT_PUBLIC_ANALYTICS_ID: process.env.NEXT_PUBLIC_ANALYTICS_ID
+    },
+    redirects: [
+        {
+            source: "/old-url",
+            has: { type: "query", status: 200 },
+            destination: "/new-url"
+        }
+    ],
+    headers: [
+        {
+            source: "/(.*)",
+            headers: [
+                { key: "strict-transport-security", value: "max-age=31536000; includeSubDomains; preload" },
+                { key: "x-content-type-options", value: "nosniff" },
+                { key: "x-frame-options", value: "DENY" }
+            ]
+        }
+    ],
+    cacheStrategies: {
+        "/api": { maxAge: 0, sMaxAge: 0 },
+        "/static/*": { maxAge: 31536000, sMaxAge: 86400 }
+    },
+    frameworkSettings: {
+        vercel: {},
+        netlify: {}
+    }
+};
